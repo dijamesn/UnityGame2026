@@ -20,11 +20,13 @@ public class PlayerBuilder : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             buildManager.SelectTurretToBuild(buildManager.standardTurret);
+            UIManager.instance?.ShowTurretInfo(buildManager.standardTurret);
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             buildManager.SelectTurretToBuild(buildManager.missileLauncher);
+            UIManager.instance?.ShowTurretInfo(buildManager.missileLauncher);
         }
 
         UpdateNodeHighlight();
@@ -70,13 +72,13 @@ public class PlayerBuilder : MonoBehaviour
     {
         if (currentNode == null)
         {
-            Debug.Log("No node hit."); //Need to add to ui
+            Debug.Log("No node hit.");
             return;
         }
 
         if (!buildManager.CanBuild)
         {
-            Debug.Log("No turret selected."); //Need to add to ui
+            Debug.Log("No turret selected.");
             return;
         }
 

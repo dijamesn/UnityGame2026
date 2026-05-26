@@ -3,26 +3,27 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject ui;           // Assign the pause menu panel in Inspector
-    public GameManager gameManager; // Optional: hook into existing GameManager if you want
+    public GameObject ui;           // Assign the pause menu panel in the Inspector
+    public GameManager gameManager;
 
     private bool isPaused = false;
 
     void Start()
     {
         if (ui != null)
-        {
             ui.SetActive(false);
-        }
+
         Time.timeScale = 1f;
+
+        // Always spawn with mouse visible and unlocked
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible   = true;
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
-        {
             TogglePause();
-        }
     }
 
     public void TogglePause()
@@ -34,8 +35,17 @@ public class PauseMenu : MonoBehaviour
 
         Time.timeScale = isPaused ? 0f : 1f;
 
-        // Optional: if you use a UIManager, you could notify it here
-        // e.g. gameManager.SetPaused(isPaused);
+        // Show cursor whenever the menu is open; hide when closed
+        if (isPaused)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible   = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible   = true;
+        }
     }
 
     public void Resume()
@@ -53,7 +63,6 @@ public class PauseMenu : MonoBehaviour
     public void QuitToMainMenu()
     {
         Time.timeScale = 1f;
-        // Adjust this index/name for your main menu scene
         SceneManager.LoadScene(0);
     }
 }

@@ -15,9 +15,9 @@ public class PauseMenu : MonoBehaviour
 
         Time.timeScale = 1f;
 
-        // Always spawn with mouse visible and unlocked
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible   = true;
+        // Cursor starts locked so the player can look around immediately
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible   = false;
     }
 
     void Update()
@@ -35,7 +35,8 @@ public class PauseMenu : MonoBehaviour
 
         Time.timeScale = isPaused ? 0f : 1f;
 
-        // Show cursor whenever the menu is open; hide when closed
+        // Unlock cursor when paused so the player can use the menu;
+        // re-lock when resuming so MouseLook works again
         if (isPaused)
         {
             Cursor.lockState = CursorLockMode.None;
@@ -43,8 +44,8 @@ public class PauseMenu : MonoBehaviour
         }
         else
         {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible   = true;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible   = false;
         }
     }
 

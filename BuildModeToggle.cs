@@ -1,21 +1,21 @@
 using UnityEngine;
 
-// B key for build mode has been removed.
-// Mouse is unlocked on spawn by default.
-// Cursor state is now managed by PauseMenu (Escape) and CameraController (Tab).
+// B key for build mode removed.
+// Mouse starts LOCKED so the player can look around with MouseLook.
+// PauseMenu (Escape) is responsible for unlocking/relocking the cursor.
 public class BuildModeToggle : MonoBehaviour
 {
-    public static bool InBuildMode = true; // Always in build mode now; toggle was removed
+    public static bool InBuildMode = true;
 
     public MouseLook mouseLook;
 
     void Start()
     {
-        // Spawn with mouse visible and unlocked
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible   = true;
+        // Lock the cursor on spawn so MouseLook can rotate the player
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible   = false;
 
         if (mouseLook != null)
-            mouseLook.enabled = false;
+            mouseLook.enabled = true;
     }
 }

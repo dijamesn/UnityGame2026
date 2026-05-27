@@ -10,8 +10,6 @@ public class UIManager : MonoBehaviour
     public Text livesText;
     public Text waveText;
 
-    [Header("Turret Info Popup")]
-    // Assign a UI Text (or TMP_Text) in the Inspector for the turret info popup.
     public Text turretInfoText;
     public float infoDisplayDuration = 2.5f;
 
@@ -40,7 +38,6 @@ public class UIManager : MonoBehaviour
         waveText.text  = "Wave " + WaveSpawner.waveIndex.ToString();
     }
 
-    // Call this when the player presses 1 or 2 to preview a turret
     public void ShowTurretInfo(TurretBlueprint blueprint)
     {
         if (turretInfoText == null || blueprint == null)
@@ -55,7 +52,6 @@ public class UIManager : MonoBehaviour
 
         turretInfoText.gameObject.SetActive(true);
 
-        // Cancel any existing hide timer and restart it
         if (hideInfoCoroutine != null)
             StopCoroutine(hideInfoCoroutine);
 

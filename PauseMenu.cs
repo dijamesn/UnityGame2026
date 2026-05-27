@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject ui;           // Assign the pause menu panel in the Inspector
+    public GameObject ui;      
     public GameManager gameManager;
 
     private bool isPaused = false;
@@ -15,9 +15,8 @@ public class PauseMenu : MonoBehaviour
 
         Time.timeScale = 1f;
 
-        // Cursor starts locked so the player can look around immediately
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible   = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible   = true;
     }
 
     void Update()
@@ -35,8 +34,6 @@ public class PauseMenu : MonoBehaviour
 
         Time.timeScale = isPaused ? 0f : 1f;
 
-        // Unlock cursor when paused so the player can use the menu;
-        // re-lock when resuming so MouseLook works again
         if (isPaused)
         {
             Cursor.lockState = CursorLockMode.None;
@@ -44,8 +41,8 @@ public class PauseMenu : MonoBehaviour
         }
         else
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible   = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible   = true;
         }
     }
 

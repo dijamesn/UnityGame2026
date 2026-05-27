@@ -24,18 +24,27 @@ public class WaveSpawner : MonoBehaviour
     public int finalWave = 60;
 
     private bool levelCompleted = false;
+    private bool isSpawning = false;
 
     void Start()
     {
         waveIndex = 0;
         EnemiesAlive = 0;
         levelCompleted = false;
+        isSpawning = false;
     }
 
     void Update()
     {
         if (levelCompleted)
             return;
+
+        // Don't tick down the countdown while enemies are still alive or a wave is in progress
+        if (isSpawning || EnemiesAlive > 0)
+        {
+            waveCountdownText.text = "0";
+            return;
+        }
 
         if (countdown <= 0f)
         {
@@ -50,6 +59,8 @@ public class WaveSpawner : MonoBehaviour
 
     IEnumerator SpawnWave()
     {
+        isSpawning = true;
+
         waveIndex++;
         SpawnRateDecrease = SpawnRateDecrease * 0.95f;
 
@@ -71,25 +82,26 @@ public class WaveSpawner : MonoBehaviour
             yield return new WaitForSeconds(0.5f * SpawnRateDecrease);
         }
 
-        if (waveIndex < finalWave)
+        isSpawning = false;
+
+        // Wait until all enemies are dead before allowing the next wave to count down
+        yield return new WaitUntil(() => EnemiesAlive <= 0);
+
+        if (waveIndex >= finalWave)
         {
-            yield break;
-        }
-
-        //yield return new WaitUntil(() => EnemiesAlive <= 0);
-
-        if (!levelCompleted)
-        {
-            levelCompleted = true;
-
-            GameManager gm = FindObjectOfType<GameManager>();
-            if (gm != null)
+            if (!levelCompleted)
             {
-                gm.WinLevel();
-            }
-            else
-            {
-                Debug.LogError("GameManager not found in scene when trying to WinLevel().");
+                levelCompleted = true;
+
+                GameManager gm = FindObjectOfType<GameManager>();
+                if (gm != null)
+                {
+                    gm.WinLevel();
+                }
+                else
+                {
+                    Debug.LogError("GameManager not found in scene when trying to WinLevel().");
+                }
             }
         }
     }

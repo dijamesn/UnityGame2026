@@ -13,6 +13,9 @@ public class Node : MonoBehaviour
     private Renderer rend;
     private Color startColor;
 
+    // Pinkish colour used when a non-standard turret is selected on this node
+    private static readonly Color otherTurretColor = new Color(1f, 0.4f, 0.7f);
+
     void Start()
     {
         rend = GetComponent<Renderer>();
@@ -28,7 +31,10 @@ public class Node : MonoBehaviour
     {
         if (turret != null)
         {
-            rend.material.color = Color.cyan;
+            // Show cyan for the standard turret, pink for any other
+            BuildManager bm = BuildManager.instance;
+            bool isStandard = bm == null || bm.GetTurretToBuild() == null || bm.GetTurretToBuild() == bm.standardTurret;
+            rend.material.color = isStandard ? Color.cyan : otherTurretColor;
             return;
         }
 
